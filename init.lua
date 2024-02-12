@@ -43,6 +43,9 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.opt.spelllang = 'en_us'
+vim.opt.spell = true
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -153,11 +156,18 @@ require('lazy').setup({
 
   {
     -- Theme inspired by Atom
-    'catppuccin/nvim',
-    name = 'catppuccin',
+    'rebelot/kanagawa.nvim',
+    name = 'kanagawa',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'catppuccin'
+      require('kanagawa').setup {
+        theme = 'wave',
+        background = {
+          dark = 'dragon',
+          light = 'lotus',
+        },
+      }
+      vim.cmd.colorscheme 'kanagawa'
     end,
   },
 
@@ -168,7 +178,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'catppuccin',
+        theme = 'kanagawa',
         component_separators = '|',
         section_separators = '',
       },
@@ -348,11 +358,13 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim',
-      'bash', 'terraform' },
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'terraform' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = true,
+    autotag = {
+      enable = true,
+    },
 
     highlight = { enable = true },
     indent = { enable = true },
@@ -483,6 +495,7 @@ require('mason-tool-installer').setup {
     'eslint_d',
     'stylua',
     'gofumpt',
+    'goimports',
     'golines',
     'gomodifytags',
     'golangci-lint',
@@ -491,6 +504,8 @@ require('mason-tool-installer').setup {
     'prettier',
     'tflint',
     'staticcheck',
+    'zls',
+    'clangd',
   },
 }
 
@@ -508,7 +523,7 @@ local servers = {
   pyright = {},
   rust_analyzer = {},
   tsserver = {},
-  html = { filetypes = { 'html', 'twig', 'hbs' } },
+  html = { filetypes = { 'html', 'twig', 'hbs', 'js', 'jsx', 'ts', 'tsx' } },
 
   lua_ls = {
     Lua = {

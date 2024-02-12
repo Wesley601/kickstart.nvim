@@ -23,7 +23,7 @@ return {
 				markdown = { 'prettier' },
 				graphql = { 'prettier' },
 				lua = { 'stylua' },
-				go = { 'gofumpt' },
+				go = { 'gofumpt', 'goimports' },
 			},
 			format_on_save = format_opts,
 		}
